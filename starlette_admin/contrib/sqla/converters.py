@@ -208,7 +208,7 @@ class ModelConverter(BaseSQLAModelConverter):
     def conv_enum(self, *args: Any, **kwargs: Any) -> BaseField:
         _type = kwargs["type"]
         assert hasattr(_type, "enum_class")
-        return EnumField(**self._field_common(*args, **kwargs), enum=_type.enum_class)
+        return EnumField(**self._field_common(*args, **kwargs), enum=_type.enum_class, search_builder_type='array')
 
     @converts("Integer")  # includes BigInteger and SmallInteger
     def conv_integer(self, *args: Any, **kwargs: Any) -> BaseField:
