@@ -550,7 +550,7 @@ class EnumField(StringField):
     class_: str = "field-enum form-control form-select"
     coerce: Callable[[Any], Any] = str
     select2: bool = True
-    search_builder_type = 'array'
+    search_builder_type = "array"
 
     def __post_init__(self) -> None:
         if self.choices and not isinstance(self.choices[0], (list, tuple)):
