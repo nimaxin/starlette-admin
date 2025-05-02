@@ -410,6 +410,10 @@ $(function () {
                 .buttons("pageLength", null)
                 .container()
                 .appendTo("#pageLength_container");
+
+            if (model.default_search_builder_values) {
+                table.searchBuilder.rebuild(model.default_search_builder_values);
+            }
         },
         drawCallback: function (settings) {
             actionManager.initNoConfirmationActions();
@@ -447,5 +451,34 @@ $(function () {
         onSelectChange();
     });
 
+// Listen for the 'draw.dt' event
+    table.on('draw.dt', function (e, settings) {
+        // Check if this is the first draw
+        if (settings._iDisplayStart === 0 && settings._iDisplayLength > 0) {
+            // Set predefined SearchBuilder criteria
+            table.searchBuilder.rebuild({
+                logic: "AND",
+                criteria: [
+                    {
+                        condition: "starts",
+                        data: "Full name",
+                        origData: "full_name", // Match your column's data key
+                        type: "string",
+                        value1: "e"
+                    }
+                    // Add more criteria as needed
+                ]
+            });
+
+            // Optional: Redraw the table to apply the filter immediately
+            // table.draw();
+
+            // Unbind the event to prevent it from running on every draw
+            table.off('draw.dt');
+        }
+    });
+
     $('[data-toggle="tooltip"]').tooltip();
+    window.table = table
+
 });

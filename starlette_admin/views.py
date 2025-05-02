@@ -32,6 +32,7 @@ from starlette_admin.fields import (
 from starlette_admin.helpers import extract_fields, not_none
 from starlette_admin.i18n import get_locale, gettext, ngettext
 from starlette_admin.i18n import lazy_gettext as _
+from starlette_admin._types import SearchBuilderCriteriaData
 
 
 class BaseView:
@@ -191,6 +192,8 @@ class BaseModelView(BaseView):
         exclude_fields_from_edit: List of fields to exclude from editing page.
         searchable_fields: List of searchable fields.
         sortable_fields: List of sortable fields.
+        default_search_builder_values: Default filters on page load
+            https://datatables.net/extensions/searchbuilder/examples/initialisation/preDefined.html
         export_fields: List of fields to include in exports.
         fields_default_sort: Initial order (sort) to apply to the table.
             Should be a sequence of field names or a tuple of
@@ -237,6 +240,7 @@ class BaseModelView(BaseView):
     exclude_fields_from_edit: Sequence[str] = []
     searchable_fields: Optional[Sequence[str]] = None
     sortable_fields: Optional[Sequence[str]] = None
+    default_search_builder_values: Optional[SearchBuilderCriteriaData] = {}
     fields_default_sort: Optional[Sequence[Union[Tuple[str, bool], str]]] = None
     export_types: Sequence[ExportType] = [
         ExportType.CSV,
@@ -961,6 +965,7 @@ class BaseModelView(BaseView):
             "exportTypes": self.export_types,
             "columnVisibility": self.column_visibility,
             "searchBuilder": self.search_builder,
+            "default_search_builder_values": self.default_search_builder_values,
             "responsiveTable": self.responsive_table,
             "stateSave": self.save_state,
             "fields": [f.dict() for f in self.get_fields_list(request)],
