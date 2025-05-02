@@ -448,5 +448,4 @@ $(function () {
     });
 
     $('[data-toggle="tooltip"]').tooltip();
-    window.t = table
 });
