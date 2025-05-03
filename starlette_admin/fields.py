@@ -73,7 +73,7 @@ class BaseField:
     disabled: Optional[bool] = False
     read_only: Optional[bool] = False
     id: str = ""
-    search_builder_type: Optional[str] = "array"
+    search_builder_type: Optional[str] = "default"
     required: Optional[bool] = False
     exclude_from_list: Optional[bool] = False
     exclude_from_detail: Optional[bool] = False
@@ -210,7 +210,7 @@ class StringField(BaseField):
 
     maxlength: Optional[int] = None
     minlength: Optional[int] = None
-    search_builder_type: Optional[str] = "array"
+    search_builder_type: Optional[str] = "string"
     input_type: str = "text"
     class_: str = "field-string form-control"
     placeholder: Optional[str] = None
@@ -551,6 +551,7 @@ class EnumField(StringField):
     class_: str = "field-enum form-control form-select"
     coerce: Callable[[Any], Any] = str
     select2: bool = True
+    search_builder_type = "array"
 
     def __post_init__(self) -> None:
         if self.choices and not isinstance(self.choices[0], (list, tuple)):
