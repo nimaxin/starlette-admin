@@ -73,7 +73,7 @@ class BaseField:
     disabled: Optional[bool] = False
     read_only: Optional[bool] = False
     id: str = ""
-    search_builder_type: Optional[str] = "default"
+    search_builder_type: Optional[str] = "array"
     required: Optional[bool] = False
     exclude_from_list: Optional[bool] = False
     exclude_from_detail: Optional[bool] = False
@@ -210,7 +210,7 @@ class StringField(BaseField):
 
     maxlength: Optional[int] = None
     minlength: Optional[int] = None
-    search_builder_type: Optional[str] = "string"
+    search_builder_type: Optional[str] = "array"
     input_type: str = "text"
     class_: str = "field-string form-control"
     placeholder: Optional[str] = None
