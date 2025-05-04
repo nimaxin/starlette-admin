@@ -19,7 +19,13 @@ from jinja2 import Template
 from starlette.requests import Request
 from starlette.responses import Response
 from starlette.templating import Jinja2Templates
-from starlette_admin._types import ExportType, RequestAction, RowActionsDisplayType
+
+from starlette_admin._types import (
+    ExportType,
+    RequestAction,
+    RowActionsDisplayType,
+    SearchBuilderCriteriaData,
+)
 from starlette_admin.actions import action, link_row_action, row_action
 from starlette_admin.exceptions import ActionFailed
 from starlette_admin.fields import (
@@ -208,6 +214,7 @@ class BaseModelView(BaseView):
             extension
         search_builder: Enable/Disable [search builder](https://datatables.net/extensions/searchbuilder/)
             extension
+        default_search_builder_values: Optional[SearchBuilderCriteriaData] = {}
         page_size: Default number of items to display in List page pagination.
             Default value is set to `10`.
         page_size_options: Pagination choices displayed in List page.
@@ -248,6 +255,7 @@ class BaseModelView(BaseView):
     export_fields: Optional[Sequence[str]] = None
     column_visibility: bool = True
     search_builder: bool = True
+    default_search_builder_values: Optional[SearchBuilderCriteriaData] = {}
     page_size: int = 10
     page_size_options: Sequence[int] = [10, 25, 50, 100]
     responsive_table: bool = False
@@ -948,6 +956,21 @@ class BaseModelView(BaseView):
                     links.append(link)
         return links
 
+    def get_default_search_builder_values(self, request):
+        """
+        example :
+        'criteria': [
+        {
+            "condition": "starts",
+            "data": "Full name",
+            "origData": "full_name", #column name
+            "value": ["M"],
+            }
+        ],
+        'logic': 'AND'
+        """
+        return self.default_search_builder_values
+
     async def _configs(self, request: Request) -> Dict[str, Any]:
         locale = get_locale()
         return {
@@ -963,6 +986,9 @@ class BaseModelView(BaseView):
             "exportTypes": self.export_types,
             "columnVisibility": self.column_visibility,
             "searchBuilder": self.search_builder,
+            "default_search_builder_values": self.get_default_search_builder_values(
+                request
+            ),
             "responsiveTable": self.responsive_table,
             "stateSave": self.save_state,
             "fields": [f.dict() for f in self.get_fields_list(request)],

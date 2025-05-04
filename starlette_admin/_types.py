@@ -1,4 +1,7 @@
 from enum import Enum
+from typing import List, Optional
+
+from pydantic import BaseModel, Field
 
 
 class RequestAction(str, Enum):
@@ -36,3 +39,17 @@ class ExportType(str, Enum):
 class RowActionsDisplayType(str, Enum):
     ICON_LIST = "ICON_LIST"
     DROPDOWN = "DROPDOWN"
+
+
+class SearchBuilderCriterion(BaseModel):
+    condition: str
+    data: str
+    origData: str = Field(..., alias="origData")
+    type: str
+    value: Optional[List[str]] = None
+    value1: Optional[str] = None
+
+
+class SearchBuilderCriteriaData(BaseModel):
+    logic: str
+    criteria: List[SearchBuilderCriterion]

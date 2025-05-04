@@ -402,7 +402,9 @@ $(function () {
           },
         },
       });
-
+      if (model.default_search_builder_values) {
+        table.searchBuilder.rebuild(model.default_search_builder_values);
+      }
       table.buttons("main", null).container().appendTo("#btn_container");
       table
         .buttons("pageLength", null)
