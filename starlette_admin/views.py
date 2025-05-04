@@ -19,6 +19,7 @@ from jinja2 import Template
 from starlette.requests import Request
 from starlette.responses import Response
 from starlette.templating import Jinja2Templates
+
 from starlette_admin._types import ExportType, RequestAction, RowActionsDisplayType
 from starlette_admin.actions import action, link_row_action, row_action
 from starlette_admin.exceptions import ActionFailed
@@ -948,6 +949,12 @@ class BaseModelView(BaseView):
                     links.append(link)
         return links
 
+    def get_clear_selection_on_draw(self) -> bool:
+        """
+        clear selections on update datatable by searching, paginating, filtering
+        """
+        return True
+
     async def _configs(self, request: Request) -> Dict[str, Any]:
         locale = get_locale()
         return {
@@ -981,4 +988,5 @@ class BaseModelView(BaseView):
                 f"{request.app.state.ROUTE_NAME}:statics", path=f"i18n/dt/{locale}.json"
             ),
             "datatablesOptions": self.datatables_options,
+            "clear_selection_on_draw": self.get_clear_selection_on_draw(),
         }

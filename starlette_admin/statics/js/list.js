@@ -435,6 +435,17 @@ $(function () {
       onSelectChange();
     });
 
+    if (model.clear_selection_on_draw){
+      table.on('preDraw', function () {
+          table.rows({selected: true}).every(function () {
+              var row = this;
+              table.row(row).deselect();
+          });
+          onSelectChange();
+      });
+    }
+
+
   actionManager.initNoConfirmationActions();
   actionManager.initActionModal();
 
