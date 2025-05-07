@@ -203,6 +203,10 @@ $(function () {
             null: noInputCondition("starlette-admin.conditions.empty"),
             "!null": noInputCondition("starlette-admin.conditions.notEmpty"),
           },
+          array: {
+              '=': SearchBuilderConditions.array.equal(model.fields),
+              '!=': SearchBuilderConditions.array.notEqual(model.fields),
+          }
         },
         greyscale: true,
       },
@@ -265,6 +269,7 @@ $(function () {
         "!null": "is_not_null",
         false: "is_false",
         true: "is_true",
+        without: "neq",
       };
       if (c.condition == "between") {
         cnd["between"] = c.value;
@@ -276,6 +281,7 @@ $(function () {
       d[c.origData] = cnd;
     }
     return d;
+
   }
   // End Search builder
 
