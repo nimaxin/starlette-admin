@@ -421,9 +421,6 @@ $(function () {
 
   function onSelectChange() {
     selectedRows = table.rows({ selected: true }).ids().toArray();
-    if (table.rows({ selected: true }).count() == 0)
-      $("#actions-dropdown").hide();
-    else $("#actions-dropdown").show();
     $(".actions-selected-counter").text(table.rows({ selected: true }).count());
   }
 
