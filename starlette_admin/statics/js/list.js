@@ -203,6 +203,10 @@ $(function () {
             null: noInputCondition("starlette-admin.conditions.empty"),
             "!null": noInputCondition("starlette-admin.conditions.notEmpty"),
           },
+            array: {
+                '=': SearchBuilderConditions.array.equal(model.fields),
+                '!=': SearchBuilderConditions.array.notEqual(model.fields),
+            }
         },
         greyscale: true,
       },
