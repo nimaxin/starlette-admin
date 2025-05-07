@@ -53,14 +53,14 @@ const SearchBuilderConditions = (function () {
         const input = $('<select/>')
             .addClass(that.classes.value)
             .addClass(that.classes.input)
-            .addClass('form-select')
-            .on('change', function () {
-                $(this).trigger('input');
-            });
+            .addClass('dtsb-value dtsb-dropDown form-select dtsb-italic dtsb-greyscale')
+
+        $('<option value="">' + "Select" + '</option>').appendTo(input);
 
         // Add unique values to dropdown
-        Array.from(values).sort().forEach(function (item) {
-            $('<option value="' + item[0] + '">' + item[1] + '</option>').appendTo(input);
+        Array.from(values).sort().forEach(function (item, index) {
+            var option = $('<option>').val(item[0]).text(item[1]);
+            option.appendTo(input);
         });
 
         input.appendTo(wrapper);
@@ -82,7 +82,11 @@ const SearchBuilderConditions = (function () {
                     },
                     init: function (that, fn, opts) {
                         const values = get_field_choices(that.s.origData, fields_config);
-                        return createSelectDropdown(that, values);
+                        let el = createSelectDropdown(that, values);
+                        $(el).on('change', function () {
+                            fn(that, this);
+                        });
+                        return el
                     },
                     inputValue: function (el) {
                         return $(el[0]).find('select').val();
@@ -104,7 +108,11 @@ const SearchBuilderConditions = (function () {
                     },
                     init: function (that, fn, opts) {
                         const values = get_field_choices(that.s.origData, fields_config);
-                        return createSelectDropdown(that, values);
+                        let el = createSelectDropdown(that, values);
+                        $(el).on('change', function () {
+                            fn(that, this);
+                        });
+                        return el
                     },
                     inputValue: function (el) {
                         return $(el[0]).find('select').val();
@@ -126,7 +134,11 @@ const SearchBuilderConditions = (function () {
                     },
                     init: function (that, fn, opts) {
                         const values = get_field_choices(that.s.origData, fields_config);
-                        return createSelectDropdown(that, values);
+                        let el = createSelectDropdown(that, values);
+                        $(el).on('change', function () {
+                            fn(that, this);
+                        });
+                        return el
                     },
                     inputValue: function (el) {
                         return $(el[0]).find('select').val();
@@ -148,7 +160,11 @@ const SearchBuilderConditions = (function () {
                     },
                     init: function (that, fn, opts) {
                         const values = get_field_choices(that.s.origData, fields_config);
-                        return createSelectDropdown(that, values);
+                        let el = createSelectDropdown(that, values);
+                        $(el).on('change', function () {
+                            fn(that, this);
+                        });
+                        return el
                     },
                     inputValue: function (el) {
                         return $(el[0]).find('select').val();
